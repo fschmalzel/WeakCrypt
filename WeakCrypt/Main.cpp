@@ -6,7 +6,6 @@ Letzte Überarbeitung:	2016/12/26 00:41
 
 #include <iostream>
 #include <string>
-#include "Quelle.h"
 
 using namespace std;
 
