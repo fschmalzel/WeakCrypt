@@ -9,20 +9,15 @@ Letzte Überarbeitung:	2016/12/26 00:41
 
 using namespace std;
 
-void debugOutput(string message) {
-	cout << message;
-}
-
-
 void getCryptTable(char cryptTable[6][6]) {
 	char passphrase[26 + 4 + 1];//26 Buchstaben, 4 Leerzeichen, 1 Nullterminator
 	char c;
 	bool flag = true;
 	bool exists;
 	short position = 0;
-	short offset = 0;
+	//short offset = 0;
 	//Erstellung der Passphrase
-	cin >> noskipws >> c;
+	cin >> noskipws;
 	cout << "Passphrase: ";
 	do { //Userinput
 		cin >> c;
@@ -41,17 +36,18 @@ void getCryptTable(char cryptTable[6][6]) {
 				position++;
 			}
 		}
-		else if (c == ' ' && offset < 4) {
+		/*else if (c == ' ' && offset < 4) {
 			passphrase[position] = c;
 			position++;
 			offset++;
-		}
+		}*/
 	} while (c != '\n');
 	cin >> skipws;
 
 	for (char i = 97; i <= 122; i++) {//Auffüllen mit den restlichen Buchstaben des Alphabets
 		exists = false;
-		for (int i2 = 0; i2 <= 29; i2++) {
+		//for (int i2 = 0; i2 <= 29; i2++) {
+		for (int i2 = 0; i2 <= 25; i2++) {
 			if (i == passphrase[i2]) {
 				exists = true;
 			}
@@ -62,13 +58,13 @@ void getCryptTable(char cryptTable[6][6]) {
 		}
 	}
 
-	for (short i = 26 + offset; i <= 29; i++) {//Die letzten 4 Zeichen sind Leerzeichen und ein Nullterminator
+	//for (short i = 26 + offset; i <= 29; i++) {//Die letzten 4 Zeichen sind Leerzeichen und ein Nullterminator
+	for (short i = 26; i <= 29; i++) {
 		passphrase[i] = ' ';
 	}
 
 	passphrase[26 + 4] = '\0';
-
-	debugOutput(passphrase + '\n');
+	//cout << passphrase << endl;
 
 	for (int i = 0; i <= 6 - 1; i++) { //Konvertieren des 1-dimensionalen Arrays zu dem 2-dimensionalen Array
 		for (int j = 0; j <= 6 - 1; j++) {
@@ -90,7 +86,7 @@ char* getCharInput() {
 	char* placeholder;
 	inputString = new char[1];
 	inputString[arrayLength] = '\0';
-	cin >> noskipws >> c;
+	cin >> noskipws;
 	do {
 		cin >> c;
 		if (c >= 65 && c <= 90) {
@@ -107,7 +103,7 @@ char* getCharInput() {
 			inputString[arrayLength + 1] = '\0';
 			arrayLength++;
 		}
-	} while (c != '\n');
+	} while (c != '\n' || arrayLength == 0);
 
 	cin >> skipws;
 
@@ -134,21 +130,24 @@ void encrypt(char cryptTable[6][6], char *input, short *output, unsigned int len
 int main() {
 	//ASCII 97 - 122 inklusive
 	char cryptTable[6][6];
-	char *inputString = new char[1];
+	char *inputString;
 	short *outputArray;
-	unsigned int arrayLength;
+	unsigned int arrayLength = 0;
 	int i = 0;
 
 	getCryptTable(cryptTable);
-
+	cout << "Text: ";
 	inputString = getCharInput();
-	arrayLength = sizeof(inputString);
-	debugOutput(inputString + 'n');
+	while (inputString[arrayLength] != '\0') {
+		arrayLength++;
+	}
 
+	//cout << inputString << endl;
 	outputArray = new short[arrayLength + 1];
 	outputArray[arrayLength] = 0;
 
 	encrypt(cryptTable, inputString, outputArray, arrayLength);
+	cout << "Encrypted Text: ";
 	while (outputArray[i] != 0) {
 		cout << outputArray[i] << ' ';
 		i++;
