@@ -110,7 +110,7 @@ char* getCharInput() {
 	return inputString;
 }
 
-short findCharInVeTa(char cryptTable[6][6], char c) {
+short findCharInCryptTable(char cryptTable[6][6], char c) {
 	for (short i = 0; i <= 5; i++) {
 		for (short j = 0; j <= 4; j++) {
 			if (cryptTable[i][j] == c) {
@@ -123,7 +123,7 @@ short findCharInVeTa(char cryptTable[6][6], char c) {
 
 void encrypt(char cryptTable[6][6], char *input, short *output, unsigned int len) {
 	for (unsigned int i = 0; i < len; i++) {
-		output[i] = findCharInVeTa(cryptTable, input[i]);
+		output[i] = findCharInCryptTable(cryptTable, input[i]);
 	}
 }
 
