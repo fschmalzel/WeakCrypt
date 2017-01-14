@@ -1,11 +1,12 @@
 /*	Programmname:			Verschluesslung
 Autor:					Felix S.
-Version:				1.0
+Version:				1.2
 Letzte Überarbeitung:	2016/12/26 00:41
 */
 
 #include <iostream>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -41,7 +42,8 @@ void getCryptTable(char cryptTable[6][6]) {
 			position++;
 			offset++;
 		}*/
-	} while (c != '\n');
+	} while (c != '\n' || position == 0);
+
 	cin >> skipws;
 
 	for (char i = 97; i <= 122; i++) {//Auffüllen mit den restlichen Buchstaben des Alphabets
@@ -127,7 +129,34 @@ void encrypt(char cryptTable[6][6], char* input, short* output, unsigned int len
 	}
 }
 
-void decrypt() {
+void encryptMain() {
+	char cryptTable[6][6];
+	char *inputString;
+	short *outputArray;
+	unsigned int arrayLength = 0;
+	int i = 0;
+
+	getCryptTable(cryptTable);
+	cout << "Text: ";
+	inputString = getCharInput();
+	while (inputString[arrayLength] != '\0') {
+		arrayLength++;
+	}
+	//cout << inputString << endl;
+	outputArray = new short[arrayLength + 1];
+	outputArray[arrayLength] = 0;
+
+	encrypt(cryptTable, inputString, outputArray, arrayLength);
+	cout << "Encrypted Text: ";
+	while (outputArray[i] != 0) {
+		cout << outputArray[i] << ' ';
+		i++;
+	}
+
+	cout << endl;
+}
+
+short* getShortInput() {
 	char c;
 	short s = 0;
 	unsigned int arrayLength = 0;
@@ -158,44 +187,52 @@ void decrypt() {
 			s = 0;
 		}
 	} while (c != '\n' || arrayLength == 0);
-	for (unsigned int i = 0; i < arrayLength; i++) {
+	/*for (unsigned int i = 0; i < arrayLength; i++) {
 		cout << inputArray[i] << ' ';
-	}
+	}*/
 	cin >> skipws;
+	return inputArray;
+}
+
+void decrypt(char cryptTable[6][6], short* inputArray, char* outputString, unsigned int arrayLength) {
+	short d1;
+	short d2;
+	for (unsigned int i = 0; i < arrayLength; i++) {
+		d1 = floor(inputArray[i] / 10);
+		d2 = inputArray[i] - (d1 * 10);
+		outputString[i] = cryptTable[d1 - 1][d2 - 1];
+	}
+}
+
+void decryptMain() {
+	short* inputArray;
+	char* outputString;
+	char cryptTable[6][6];
+	unsigned int arrayLength = 0;
+	getCryptTable(cryptTable);
+	cout << "Encrypted Text: ";
+	inputArray = getShortInput();
+	while (inputArray[arrayLength] != 0) {
+		arrayLength++;
+	}
+	outputString = new char[arrayLength + 1];
+	outputString[arrayLength] = '\0';
+	decrypt(cryptTable, inputArray, outputString, arrayLength);
+	cout << "Text: " << outputString << endl;
 }
 
 int main() {
-	//ASCII 97 - 122 inklusive
-	decrypt();
-/*
-	char cryptTable[6][6];
-	char *inputString;
-	short *outputArray;
-	unsigned int arrayLength = 0;
-	int i = 0;
-
-	getCryptTable(cryptTable);
-	cout << "Text: ";
-	inputString = getCharInput();
-	while (inputString[arrayLength] != '\0') {
-		arrayLength++;
-	}
-	//cout << inputString << endl;
-	outputArray = new short[arrayLength + 1];
-	outputArray[arrayLength] = 0;
-
-	encrypt(cryptTable, inputString, outputArray, arrayLength);
-	cout << "Encrypted Text: ";
-	while (outputArray[i] != 0) {
-		cout << outputArray[i] << ' ';
-		i++;
-	}
-
-	cout << endl;
-	
-*/
-	system("pause");
+	char c;
+	do {
+		cout << "Avaible commands:\te(ncrypt)\td(ecrypt)\tq(uit)";
+		cin >> c;
+		if (c == 'd') {
+			decryptMain();
+		}
+		else if (c == 'e') {
+			encryptMain();
+		}
+	} while (c != 'q');
 	return 0;
-
 }
 
