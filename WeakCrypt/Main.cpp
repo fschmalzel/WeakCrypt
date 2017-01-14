@@ -1,7 +1,7 @@
-/*	Programmname:			Verschluesslung
-Autor:					Felix S.
-Version:				1.2
-Letzte Überarbeitung:	2017/01/14 20:57
+/*	Programmname:			Weak Crypt
+	Autor:					Felix S.
+	Version:				1.2
+	Letzte Überarbeitung:	2017/01/14 20:57
 */
 
 #include <iostream>
