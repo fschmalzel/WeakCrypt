@@ -1,7 +1,7 @@
 /*	Programmname:			Verschluesslung
 Autor:					Felix S.
 Version:				1.2
-Letzte Überarbeitung:	2016/12/26 00:41
+Letzte Überarbeitung:	2017/01/14 20:57
 */
 
 #include <iostream>
@@ -224,7 +224,8 @@ void decryptMain() {
 int main() {
 	char c;
 	do {
-		cout << "Avaible commands:\te(ncrypt)\td(ecrypt)\tq(uit)";
+		cout << "Available commands:\te(ncrypt)\td(ecrypt)\tq(uit)\n";
+		cout << "> ";
 		cin >> c;
 		if (c == 'd') {
 			decryptMain();
