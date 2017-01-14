@@ -121,14 +121,53 @@ short findCharInCryptTable(char cryptTable[6][6], char c) {
 	return 255;
 }
 
-void encrypt(char cryptTable[6][6], char *input, short *output, unsigned int len) {
+void encrypt(char cryptTable[6][6], char* input, short* output, unsigned int len) {
 	for (unsigned int i = 0; i < len; i++) {
 		output[i] = findCharInCryptTable(cryptTable, input[i]);
 	}
 }
 
+void decrypt() {
+	char c;
+	short s = 0;
+	unsigned int arrayLength = 0;
+	short* inputArray;
+	short* placeholder;
+	inputArray = new short[1];
+	inputArray[arrayLength] = 0;
+	cin >> noskipws;
+	do {
+		cin >> c;
+		if (c >= '0' && c <= '9') {
+			s *= 10;
+			s += (c - '0');
+			if (s > 62) {
+				s = 0;
+			}
+		}
+		else if ((c == ' ' || c == '\n') && s >= 11) {
+			placeholder = inputArray;
+			inputArray = new short[arrayLength + 2];
+			for (unsigned int i = 0; i <= arrayLength; i++) {
+				inputArray[i] = placeholder[i];
+			}
+			delete[] placeholder;
+			inputArray[arrayLength] = s;
+			inputArray[arrayLength + 1] = 0;
+			arrayLength++;
+			s = 0;
+		}
+	} while (c != '\n' || arrayLength == 0);
+	for (unsigned int i = 0; i < arrayLength; i++) {
+		cout << inputArray[i] << ' ';
+	}
+	cin >> skipws;
+}
+
 int main() {
 	//ASCII 97 - 122 inklusive
+	decrypt();
+/*
 	char cryptTable[6][6];
 	char *inputString;
 	short *outputArray;
@@ -141,7 +180,6 @@ int main() {
 	while (inputString[arrayLength] != '\0') {
 		arrayLength++;
 	}
-
 	//cout << inputString << endl;
 	outputArray = new short[arrayLength + 1];
 	outputArray[arrayLength] = 0;
@@ -154,6 +192,8 @@ int main() {
 	}
 
 	cout << endl;
+	
+*/
 	system("pause");
 	return 0;
 
