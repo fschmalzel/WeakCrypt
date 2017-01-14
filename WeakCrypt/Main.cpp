@@ -1,12 +1,11 @@
 /*	Programmname:			Weak Crypt
 	Autor:					Felix S.
-	Version:				1.2
+	Version:				1.2.0.1
 	Letzte Überarbeitung:	2017/01/14 20:57
 */
 
 #include <iostream>
 #include <string>
-#include <math.h>
 
 using namespace std;
 
@@ -198,7 +197,7 @@ void decrypt(char cryptTable[6][6], short* inputArray, char* outputString, unsig
 	short d1;
 	short d2;
 	for (unsigned int i = 0; i < arrayLength; i++) {
-		d1 = floor(inputArray[i] / 10);
+		d1 = inputArray[i] / 10;
 		d2 = inputArray[i] - (d1 * 10);
 		outputString[i] = cryptTable[d1 - 1][d2 - 1];
 	}
